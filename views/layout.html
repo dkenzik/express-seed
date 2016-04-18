@@ -1,0 +1,37 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Site Title</title>
+  {% if ENV_DEVELOPMENT %}
+    <script src="http://localhost:35729/livereload.js"></script>
+  {% endif %}
+  <link rel="stylesheet" href="/static/css/site.css">
+
+
+  {% block head_extra %}
+  {% endblock %}
+
+  <style>
+    iframe { border: 0;}
+    body { background-color: #fcfcfc; padding: 10; margin: 0;}
+  </style>
+
+  {% include 'partials/script.html' %}
+
+ </head>
+<body class="wh-helper">
+
+{% block body %}  
+  {% block content %}{% endblock %}  
+{% endblock %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+<script src="/static/js/app.js"></script>
+
+{% block script_extras %}{% endblock %}
+{% block script_manual %}{% endblock %}
+</body>
+</html>
