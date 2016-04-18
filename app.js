@@ -1,5 +1,5 @@
-var env = require('node-env-file');
-env(__dirname + './../.env');
+//var env = require('node-env-file');
+//env(__dirname + '.env');
 
 //console.log(process.env);
 
@@ -20,25 +20,11 @@ var swig = require('swig');
 var marked = require('marked');
 
 var routes = require('./routes/index');
-var dashboard = require('./routes/dashboard');
-var team = require('./routes/team');
 var api = require('./routes/api');
 
 var basicAuth = require('basicauth-middleware');
-var fb = require('ncfirebase');
-fb.connect();
-fb.whConnect();
 
 var url=require('url');
-
-var keenio = require('express-keenio');
-keenio.configure({
-    client: {
-        projectId: process.env.KEEN_PROJECT_ID,
-        writeKey: process.env.KEEN_WRITE_ID
-    }
-});
-keenio.on('error',console.warn);
 
 var app = express();
 
