@@ -11,78 +11,70 @@ module.exports = function (grunt) {
   var reloadPort = 35729, files;
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON('package.json'),
-    develop: {
-      server: {
-        file: 'bin/www'
-      }
-    },
+
     sass: {
-      dist: {
+      options: {
+        sourcemap: 'auto', 
+        compass: true,
+        style: 'expanded',
+        precision: 3
+      },
+      build: {
         files: {
-          'public/css/site.css': 'scss/main.scss'
+          'public/css/style.css': 'scss/main.scss'
         }
       }
     },
-    watch: {
+
+    jshint: {
       options: {
-        nospawn: true,
-        livereload: reloadPort
-      },
-      server: {
-        files: [
-          'bin/www',
-          'app.js',
-          'routes/*.js'
-        ],
-        tasks: ['develop', 'delayed-livereload']
-      },
-      js: {
-        files: ['public/js/*.js'],
-        options: {
-          livereload: reloadPort
+        globals: {
+          jQuery: true
         }
       },
-      css: {
-        files: [
-          'scss/**/*.scss'
-        ],
-        tasks: ['sass'],
-        options: {
-          livereload: reloadPort
-        }
-      },
-      views: {
-        files: ['views/**/*.html'],
-        options: {
-          livereload: reloadPort
+      build: {
+        files: {
+          src: ['src/app/js/**/*.js']
         }
       }
-    }
+    },
+
+    concat: {
+      build: {
+        src: [
+//          'bower_components/include-media-export/include-media.js',
+          'src/app/js/**/*.js'
+        ],
+        dest: 'build/js/scripts.js',
+        nonull: true
+      }
+    },
+
+    uglify: {
+      options: {
+        preserveComments: 'some'
+      },
+      build: {
+        files: {
+          'build/js/scripts.min.js': 'build/js/scripts.js',
+          'build/js/admin.min.js': 'build/js/admin.js'
+        }
+      }
+    },
+
   });
 
-  grunt.config.requires('watch.server.files');
-  files = grunt.config('watch.server.files');
-  files = grunt.file.expand(files);
+  grunt.loadNpmTasks('grunt-autoprefixer');
+  grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-csslint');
+  grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-sass');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-newer');
+  grunt.loadNpmTasks('grunt-browser-sync');
 
-  grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function () {
-    var done = this.async();
-    setTimeout(function () {
-      request.get('http://localhost:' + reloadPort + '/changed?files=' + files.join(','),  function (err, res) {
-          var reloaded = !err && res.statusCode === 200;
-          if (reloaded) {
-            grunt.log.ok('Delayed live reload successful.');
-          } else {
-            grunt.log.error('Unable to make a delayed live reload.');
-          }
-          done(reloaded);
-        });
-    }, 500);
-  });
-
-  grunt.registerTask('default', [
-    'sass',
-    'develop',
-    'watch'
-  ]);
+  grunt.registerTask('default', ['sass']);
 };
