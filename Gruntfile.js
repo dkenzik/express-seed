@@ -21,7 +21,7 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          'public/css/style.css': 'scss/main.scss'
+          'static/css/style.css': 'scss/main.scss'
         }
       }
     },
@@ -45,7 +45,7 @@ module.exports = function (grunt) {
 //          'bower_components/include-media-export/include-media.js',
           'src/app/js/**/*.js'
         ],
-        dest: 'build/js/scripts.js',
+        dest: 'static/js/vendor.js',
         nonull: true
       }
     },
@@ -56,8 +56,8 @@ module.exports = function (grunt) {
       },
       build: {
         files: {
-          'build/js/scripts.min.js': 'build/js/scripts.js',
-          'build/js/admin.min.js': 'build/js/admin.js'
+          'static/js/scripts.min.js': 'static/js/scripts.js',
+          'static/js/vendor.min.js': 'static/js/vendor.js'
         }
       }
     },
@@ -76,5 +76,5 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-browser-sync');
 
-  grunt.registerTask('default', ['sass']);
+  grunt.registerTask('default', ['sass','uglify']);
 };
