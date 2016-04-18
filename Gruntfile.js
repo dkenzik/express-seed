@@ -17,7 +17,11 @@ module.exports = function (grunt) {
         sourcemap: 'auto', 
         compass: true,
         style: 'expanded',
-        precision: 3
+        precision: 3,
+        loadPath: [
+          'bower_components/foundation-sites/scss',
+          'bower_components/motion-ui/src'
+        ]
       },
       build: {
         files: {
