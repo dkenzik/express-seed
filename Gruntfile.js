@@ -78,6 +78,13 @@ module.exports = function (grunt) {
         options: {
           spawn: false
         }
+      },
+
+      views: {
+        files: ['views/**/*'],
+        options: {
+          spawn: false
+        }        
       }
     },
     browserSync: {

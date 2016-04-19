@@ -54,7 +54,7 @@ app.use(session({
 }));
 app.use(cookieParser());
 
-app.use("/static", express.static(path.join(__dirname, 'public')));
+app.use("/static", express.static(path.join(__dirname, 'static')));
 app.use('/', routes);
 app.use('/api',api);
 
