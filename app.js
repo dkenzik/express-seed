@@ -10,7 +10,7 @@ var FileStore = require('session-file-store')(session);
 
 var cors = require('cors');
 var path = require('path');
-var favicon = require('serve-favicon');
+//var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -22,9 +22,8 @@ var marked = require('marked');
 var routes = require('./routes/index');
 var api = require('./routes/api');
 
-var basicAuth = require('basicauth-middleware');
-
-var url=require('url');
+//var basicAuth = require('basicauth-middleware');
+//var url=require('url');
 
 var app = express();
 

@@ -3,12 +3,8 @@
 var request = require('request');
 
 module.exports = function (grunt) {
-  // show elapsed time at the end
-  require('time-grunt')(grunt);
-  // load all grunt tasks
-  require('load-grunt-tasks')(grunt);
 
-  var reloadPort = 35729, files;
+  require('time-grunt')(grunt);
 
   grunt.initConfig({
 
@@ -46,7 +42,7 @@ module.exports = function (grunt) {
     concat: {
       build: {
         src: [
-//          'bower_components/include-media-export/include-media.js',
+          'bower_components/foundation-sites/dist/foundation.js',
           'src/app/js/**/*.js'
         ],
         dest: 'static/js/vendor.js',
@@ -56,7 +52,8 @@ module.exports = function (grunt) {
 
     uglify: {
       options: {
-        preserveComments: 'some'
+        preserveComments: 'some',
+        sourceMap: true
       },
       build: {
         files: {
@@ -65,6 +62,42 @@ module.exports = function (grunt) {
         }
       }
     },
+
+    watch: {
+      js: {
+        files: ['js/**/*.js'],
+        tasks: ['concat','uglify'],
+        options: {
+          spawn: false
+        }
+      },
+
+      css: {
+        files: ['scss/**/*.scss'],
+        tasks: ['sass'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+    browserSync: {
+      dev: {
+        bsFiles: {
+          src : [
+            'public/**/*',
+            'app.js',
+            'lib/**/*.js'
+          ],
+        },
+        options: {
+          proxy: 'localhost:3333',
+          watchTask: true,
+          debugInfo: true,
+          logConnections: true,
+          notify: true
+        }
+      }
+    },    
 
   });
 
@@ -80,5 +113,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-newer');
   grunt.loadNpmTasks('grunt-browser-sync');
 
-  grunt.registerTask('default', ['sass','uglify']);
+  grunt.registerTask('default', ['sass','concat','uglify','browserSync','watch']);
+  grunt.registerTask('compile', ['sass','concat','uglify']); // TODO: Proper compile, auto-prefixer, etc.
+  grunt.registerTask('deploy', []); // TODO: Proper deploy to platform of choice
+
 };
