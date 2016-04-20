@@ -1,5 +1,5 @@
 (function () {
 
-  console.log('Ready.');
+  console.log('Ready Set Go 4.');
 
 })();

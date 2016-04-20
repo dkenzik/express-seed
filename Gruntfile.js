@@ -66,7 +66,7 @@ module.exports = function (grunt) {
         livereload: true
       },
       js: {
-        files: ['js/**/*.js'],
+        files: ['static/js/**/*.js'],
         tasks: ['concat','uglify'],
         options: {
           spawn: false
@@ -86,7 +86,7 @@ module.exports = function (grunt) {
       }
 
     }
-    
+
   });
 
   grunt.loadNpmTasks('grunt-autoprefixer');
