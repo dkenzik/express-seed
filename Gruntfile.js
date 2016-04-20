@@ -4,8 +4,6 @@ var request = require('request');
 
 module.exports = function (grunt) {
 
-  require('time-grunt')(grunt);
-
   grunt.initConfig({
 
     sass: {
@@ -64,6 +62,9 @@ module.exports = function (grunt) {
     },
 
     watch: {
+      options: {
+        livereload: true
+      },
       js: {
         files: ['js/**/*.js'],
         tasks: ['concat','uglify'],
@@ -82,30 +83,10 @@ module.exports = function (grunt) {
 
       views: {
         files: ['views/**/*'],
-        options: {
-          spawn: false
-        }        
       }
-    },
-    browserSync: {
-      dev: {
-        bsFiles: {
-          src : [
-            'public/**/*',
-            'app.js',
-            'lib/**/*.js'
-          ],
-        },
-        options: {
-          proxy: 'localhost:3333',
-          watchTask: true,
-          debugInfo: true,
-          logConnections: true,
-          notify: true
-        }
-      }
-    },    
 
+    }
+    
   });
 
   grunt.loadNpmTasks('grunt-autoprefixer');
@@ -118,9 +99,20 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-newer');
-  grunt.loadNpmTasks('grunt-browser-sync');
+  grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('default', ['sass','concat','uglify','browserSync','watch']);
+  grunt.registerTask('default', function() {
+    
+    var taskList = [
+      'sass', // css 
+      'concat', // js
+      'uglify', // js 
+      'watch' // reload trigger
+    ];
+
+    grunt.task.run(taskList);
+  });
+
   grunt.registerTask('compile', ['sass','concat','uglify']); // TODO: Proper compile, auto-prefixer, etc.
   grunt.registerTask('deploy', []); // TODO: Proper deploy to platform of choice
 
